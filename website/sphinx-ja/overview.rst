@@ -1,32 +1,31 @@
 .. currentmodule:: tornado.web
 
-Overview
+概要
 ========
 
-`FriendFeed's <http://friendfeed.com/>`_ web server is a relatively
-simple, non-blocking web server written in Python. The FriendFeed
-application is written using a web framework that looks a bit like
-`web.py <http://webpy.org/>`_ or Google's
-`webapp <http://code.google.com/appengine/docs/python/tools/webapp/>`_,
-but with additional tools and optimizations to take advantage of the
-non-blocking web server and tools.
+`FriendFeed <http://friendfeed.com/>`_ のウェブサーバは、比較的シンプルな、
+Pythonで書かれたノンブロッキングウェブサーバです。 FriendFeedのアプリケーションは、
+`web.py <http://webpy.org/>`_ や Googleの　
+`webapp <http://code.google.com/appengine/docs/python/tools/webapp/>`_
+のような、小さなウェブフレームワークで書かれていますが、 追加のツールや、
+ノンブロッキングなウェブサーバーやツールの強みを活かすための最適化を備えています。
 
-`Tornado <http://github.com/facebook/tornado>`_ is an open source
-version of this web server and some of the tools we use most often at
-FriendFeed. The framework is distinct from most mainstream web server
-frameworks (and certainly most Python frameworks) because it is
-non-blocking and reasonably fast. Because it is non-blocking and uses
-`epoll
+`Tornado <http://github.com/facebook/tornado>`_ は、FriendFeedが頻繁に使用している
+ウェブサーバやいくつかのツールのオープンソース版です。
+このフレームワークは、大抵の主流なウェブサーバフレームワーク(や、
+もちろん大抵のPythonフレームワーク)とは違います、それはノンブロッキングだからです、
+そして、適度に速いです。それはノンブロッキングで、 `epoll
 <http://www.kernel.org/doc/man-pages/online/pages/man4/epoll.4.html>`_
-or kqueue, it can handle thousands of simultaneous standing
-connections, which means the framework is ideal for real-time web
-services. We built the web server specifically to handle FriendFeed's
-real-time features — every active user of FriendFeed maintains an open
-connection to the FriendFeed servers. (For more information on scaling
-servers to support thousands of clients, see `The C10K problem
-<http://www.kegel.com/c10k.html>`_.)
+や kqueue を使用して数千の接続を同時に扱うことができるからです、
+これはリアルタイムウェブサービスに理想的なフレームワークであるということを意味します。
+私たちは、FriendFeedのリアルタイムの特徴を特に扱うための
+ウェブサーバを開発しました ー FriendFeedの全てのアクティブユーザーは、
+FrinedFeedのサーバへ接続を張り続けます。(数千のクライアントをサポートするための
+サーバーのスケーリングに関するより多くの情報は、 `The C10K problem
+<http://www.kegel.com/c10k.html>`_ を参照してください。)
 
-Here is the canonical "Hello, world" example app:
+
+ここでは模範的な"Hello, wold"をアプリの例にあげます:
 
 ::
 
@@ -45,9 +44,9 @@ Here is the canonical "Hello, world" example app:
         application.listen(8888)
         tornado.ioloop.IOLoop.instance().start()
 
-We attempted to clean up the code base to reduce interdependencies
-between modules, so you should (theoretically) be able to use any of the
-modules independently in your project without using the whole package.
+私たちは、モジュール間の相互依存を減らすためにコードベースを
+きれいにするように努めました、そのため、全パッケージを使わずに
+あなたのプロジェクトでどのモジュールも独立して使うとこが (理論上) できるはずです。
 
 Request handlers and request arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
