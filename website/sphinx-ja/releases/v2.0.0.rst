@@ -1,52 +1,50 @@
-What's new in Tornado 2.0
+Tornado 2.0の最新情報
 =========================
 
-Jun 21, 2011
+2011/06/21
 ------------
 
 ::
 
-    Major changes:
-    * Template output is automatically escaped by default; see backwards
-      compatibility note below.
-    * The default AsyncHTTPClient implementation is now simple_httpclient.
-    * Python 3.2 is now supported.
+    主な変更:
+    * テンプレート表示がデフォルトで自動エスケープされるようになります; 下の
+      後方互換性の注釈を参照してください。
+    * デフォルトのAsyncHTTPClientの実装が、これから、simple_httpclientになります。
+    * Python 3.2 がサポートされます。
 
-    Backwards compatibility:
-    * Template autoescaping is enabled by default.  Applications upgrading from
-      a previous release of Tornado must either disable autoescaping or adapt
-      their templates to work with it.  For most applications, the simplest
-      way to do this is to pass autoescape=None to the Application constructor.
-    * Applications that wish to continue using curl_httpclient instead of
-      simple_httpclient may do so by calling
-        AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient")
-      at the beginning of the process.  Users of Python 2.5 will probably want
-      to use curl_httpclient as simple_httpclient only supports ssl on Python 2.6+.
-    * Python 3 compatibility involved many changes throughout the codebase,
-      so users are encouraged to test their applications more thoroughly than
-      usual when upgrading to this release.
+    後方互換性:
+    * テンプレートの自動エスケープがデフォルトで有効になります。
+      Tornadoを以前のリリースからアップグレードするアプリケーションは、
+      自動エスケープを無効にするか、それとともにテンプレートを合わせなければいけません。
+      多くのアプリケーションのために、これを実行するための簡単な方法は、
+      アプリケーションのコンストラクタに autoescap=None を渡すことです。
+    * simple_httpclientの代わりにcurl_httpclientを使い続けたいアプリケーションは、
+      処理の最初に AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient") 
+      のように呼ぶことができます。Python2.5のユーザーは、Python2.6+のsimple_httpclientだけが
+      sslをサポートしているということで、大抵はcurl_httpclient を使いたいでしょう。
+    * Python3互換はコードベースで多くの変更点を含むため、
+      このリリースへアップグレードしたときは、ユーザーは、
+      いつものようにでなく徹底的にアプリケーションをテストすることが推奨されます。
 
-    Other changes in this release:
-    * Templates support several new directives:
-      - {% autoescape ...%} to control escaping behavior
-      - {% raw ... %} for unescaped output
-      - {% module ... %} for calling UIModules
-    * {% module Template(path, **kwargs) %} may now be used to call another
-      template with an independent namespace
-    * All IOStream callbacks are now run directly on the IOLoop via add_callback.
-    * HTTPServer now supports IPv6 where available.  To disable, pass
-      family=socket.AF_INET to HTTPServer.bind().
-    * HTTPClient now supports IPv6, configurable via allow_ipv6=bool on the
-      HTTPRequest.  allow_ipv6 defaults to false on simple_httpclient and true
-      on curl_httpclient.
-    * RequestHandlers can use an encoding other than utf-8 for query parameters
-      by overriding decode_argument()
-    * Performance improvements, especially for applications that use a lot of
-      IOLoop timeouts
-    * HTTP OPTIONS method no longer requires an XSRF token.
-    * JSON output (RequestHandler.write(dict)) now sets Content-Type to
-      application/json
-    * Etag computation can now be customized or disabled by overriding
-      RequestHandler.compute_etag
-    * USE_SIMPLE_HTTPCLIENT environment variable is no longer supported.
-      Use AsyncHTTPClient.configure instead.
+    このリリースのその他の変更:
+    * テンプレートで、いくつかの新しいディレクティブをサポートします:
+      - {% autoescape ...%} エスケープの振る舞いをコントロールするため
+      - {% raw ... %} エスケープしない表示ため
+      - {% module ... %} UIModulesを呼ぶため
+    * {% module Template(path, **kwargs) %} は、これから、独立した名前空間で
+      他のテンプレートを呼ぶために使用することができます。
+    * 全てのIOStreamのコールバックは、これから、add_callbackを通してIOLoopで直接実行されます。
+    * HTTPServerのIPv6サポートがどれでも有効になります。 
+      無効にするには、HTTPServer.bind()にfamily=socket.AF_INETを渡します。
+    * HTTPClietのIPv6サポート。HTTPRequestにallow_ipv6=bool を設定できます。
+      allow_ipv6は simple_httpclient では false で、 curl_httpclientでは true がデフォルトです。
+    * RequestHandlersは、decode_argument()のオーバーライドで、
+      クエリーパラメーターのエンコーディングにutf-8から他の物を使うことができます。
+    * パフォーマンスが改善します、たくさんのIOLoopタイムアウトを使用するアプリケーションで特に。
+    * HTTP OPTIONS メソッドでXSRFトークンが必要でなくなります。
+    * JSON表示(RequestHandler.write(dict))で、
+      これから、application/jsonをContent-Typeに設定します。
+    * Etag 計算が RequestHandlers.compute_etagのオーバーライドで
+      カスタマイズできたり無効にできるようになります。
+    * USE_SIMPLE_HTTPCLIENT の環境変数がサポートされなくなります。
+      代わりに AsyncHTTPClient.configureを使います。
