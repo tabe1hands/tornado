@@ -1,4 +1,5 @@
 SPHINXOPTS=-W -d sphinx/build/doctrees sphinx
+SPHINXOPTS_JA=-W -d sphinx-ja/build/doctrees sphinx-ja
 
 .PHONY: sphinx
 sphinx:
@@ -6,7 +7,7 @@ sphinx:
 
 .PHONY: sphinx-ja
 sphinx-ja:
-	sphinx-build -b html $(SPHINXOPTS) sphinx-ja/build/html
+	sphinx-build -b html $(SPHINXOPTS_JA) sphinx-ja/build/html
 
 
 .PHONY: coverage
