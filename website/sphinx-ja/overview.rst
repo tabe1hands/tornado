@@ -48,17 +48,17 @@ FrinedFeedのサーバへ接続を張り続けます。(数千のクライアン
 きれいにするように努めました、そのため、全パッケージを使わずに
 あなたのプロジェクトでどのモジュールも独立して使うとこが (理論上) できるはずです。
 
-Request handlers and request arguments
+Requestハンドラとrquest引数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A Tornado web application maps URLs or URL patterns to subclasses of
-`tornado.web.RequestHandler`. Those classes define ``get()`` or
-``post()`` methods to handle HTTP ``GET`` or ``POST`` requests to that
-URL.
+Tornadoウェブアプリケーションは、 `tornado.web.RequestHandler` サブクラスに
+URLsやURLのパターンを割り当てます。そのURLへの HTTP ``GET`` や ``POST`` の
+リクエストを扱うため、 それらのクラスに ``get()``  や ``post()`` のメソッドを
+定義します。
 
-This code maps the root URL ``/`` to ``MainHandler`` and the URL pattern
-``/story/([0-9]+)`` to ``StoryHandler``. Regular expression groups are
-passed as arguments to the ``RequestHandler`` methods:
+このコードでは ルートURL ``/`` を ``MainHandler`` へ割り当て、
+URLパターン ``/story/([0-9]+)`` を ``StoryHandler`` へ割り当てています。
+``RequestHandler`` メソッドへ引数として正規表現グループが渡されています:
 
 ::
 
@@ -75,8 +75,8 @@ passed as arguments to the ``RequestHandler`` methods:
         (r"/story/([0-9]+)", StoryHandler),
     ])
 
-You can get query string arguments and parse ``POST`` bodies with the
-``get_argument()`` method:
+``get_argument()`` メソッドを使って、クエリーストリングの引数を取得して
+``POST`` のボディーをパースできます:
 
 ::
 
@@ -91,31 +91,31 @@ You can get query string arguments and parse ``POST`` bodies with the
             self.set_header("Content-Type", "text/plain")
             self.write("You wrote " + self.get_argument("message"))
 
-Uploaded files are available in ``self.request.files``, which maps names
-(the name of the HTML ``<input type="file">`` element) to a list of
-files. Each file is a dictionary of the form
-``{"filename":..., "content_type":..., "body":...}``.
+ファイルのアップロードは ``self.request.files`` を利用します、
+これはファイルのリストに名前 (HTMLの ``<input type="file">`` エレメント 
+の name ) を割り当てます。それぞれのファイルは、
+``{"filename":..., "content_type":..., "body":...}`` のような形式の辞書になります。
 
-If you want to send an error response to the client, e.g., 403
-Unauthorized, you can just raise a ``tornado.web.HTTPError`` exception:
+もし、例えば、403 Unauthorized のようなエラーレスポンスを
+クライアントへ送信したい場合は、 
+単に ``tornado.web.HTTPError`` 例外を発生させるだけです:
 
 ::
 
     if not self.user_is_logged_in():
         raise tornado.web.HTTPError(403)
 
-The request handler can access the object representing the current
-request with ``self.request``. The ``HTTPRequest`` object includes a
-number of useful attributes, including:
+リクエストハンドラは ``self.request`` を通して
+現在のリクエストを表すオプジェクトにアクセスできます。
+``HTTPRequest`` オブジェクトは多くの実用的な属性が含まれています:
 
--  ``arguments`` - all of the ``GET`` and ``POST`` arguments
--  ``files`` - all of the uploaded files (via ``multipart/form-data``
-   POST requests)
--  ``path`` - the request path (everything before the ``?``)
--  ``headers`` - the request headers
+-  ``arguments`` - ``GET`` と ``POST`` の全ての引数
+-  ``files`` - 全てのアップロードしたファイル (POST リクエストの 
+   ``multipart/form-data`` を用いた)
+-  ``path`` - リクエストパス ( ``?`` より前の全て)
+-  ``headers`` - リクエストヘッダー
 
-See the class definition for `tornado.httpserver.HTTPRequest` for a
-complete list of attributes.
+完全な属性のリストは `tornado.httpserver.HTTPRequest` のクラス定義を参照してください。
 
 Overriding RequestHandler methods
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
