@@ -255,16 +255,16 @@ is probably invoked by logic involving environment, authentication, or
 form submission, but ``RedirectHandler`` patterns are going to fire 100%
 of the time they match the request URL.
 
-Templates
-~~~~~~~~~
+テンプレート
+~~~~~~~~~~~~
 
-You can use any template language supported by Python, but Tornado ships
-with its own templating language that is a lot faster and more flexible
-than many of the most popular templating systems out there. See the
-`tornado.template` module documentation for complete documentation.
+Pythonがサポートされたいくつかのテンプレート言語を使うことができますが、
+Tornadoには、世の中の多くの大抵の人気のあるテンプレートシステムより、
+もっと早く、より柔軟なテンプレート言語が搭載されています。完全なドキュメントは
+`tornado.template` モジュールのドキュメントを参照してください。
 
-A Tornado template is just HTML (or any other text-based format) with
-Python control sequences and expressions embedded within the markup:
+Tornadoのテンプレートは、マークアップを拡張したシーケンスや式の制御に
+Pythonを使うただのHTML(や、テキストベースの他の形式)です:
 
 ::
 
@@ -281,8 +281,9 @@ Python control sequences and expressions embedded within the markup:
        </body>
      </html>
 
-If you saved this template as "template.html" and put it in the same
-directory as your Python file, you could render this template with:
+もし、あなたが "template.html" として、このテンプレートを保存し、
+Pythonファイルと同じディレクトリに置いた場合、
+このテンプレートと合わせてレンダリングすることができます:
 
 ::
 
@@ -291,16 +292,16 @@ directory as your Python file, you could render this template with:
             items = ["Item 1", "Item 2", "Item 3"]
             self.render("template.html", title="My title", items=items)
 
-Tornado templates support *control statements* and *expressions*.
-Control statements are surronded by ``{%`` and ``%}``, e.g.,
-``{% if len(items) > 2 %}``. Expressions are surrounded by ``{{`` and
-``}}``, e.g., ``{{ items[0] }}``.
+Tornadoのテンプレートは *control statements* と *expressions* を
+サポートします。制御文は ``{%`` と ``%}`` で囲まれます、例えば、
+``{% if len(items) > 2 %}`` 。式は、 ``{{`` と ``}}`` で囲まれます、
+例えば、 ``{{ items[0] }}`` 。
 
-Control statements more or less map exactly to Python statements. We
-support ``if``, ``for``, ``while``, and ``try``, all of which are
-terminated with ``{% end %}``. We also support *template inheritance*
-using the ``extends`` and ``block`` statements, which are described in
-detail in the documentation for the `tornado.template`.
+制御文は、程度の差はありますが、Pythonの文を厳密に割り当てています。
+``if``, ``for``, ``while``, や ``try`` をサポートしており、
+全部 ``{% end %}`` で終わっています。 ``extends`` と ``block`` 文を 
+使って *template inheritance* もサポートしており、 `tornado.template` の
+ドキュメントで詳しく説明されています。
 
 Expressions can be any Python expression, including function calls.
 Template code is executed in a namespace that includes the following
@@ -334,23 +335,21 @@ inheritance. Read all about those features in the `tornado.template`
 section (some features, including ``UIModules`` are implemented in the
 ``web`` module)
 
-Under the hood, Tornado templates are translated directly to Python. The
-expressions you include in your template are copied verbatim into a
-Python function representing your template. We don't try to prevent
-anything in the template language; we created it explicitly to provide
-the flexibility that other, stricter templating systems prevent.
-Consequently, if you write random stuff inside of your template
-expressions, you will get random Python errors when you execute the
-template.
+内部では、TornadoのテンプレートはPythonへ直接変換されます。
+テンプレートに含める式は、テンプレートを表示するPythonの関数に
+そのままコピーされています。 私たちは、テンプレート言語で
+なんでも取りあえず抑止してみることはしません; 私たちは、
+その他の柔軟性を提供することを明示的にして、それを作りましたが、
+より厳密なテンプレートシステムは抑止します。
 
-All template output is escaped by default, using the
-``tornado.escape.xhtml_escape`` function. This behavior can be changed
-globally by passing ``autoescape=None`` to the ``Application`` or
-``TemplateLoader`` constructors, for a template file with the
-``{% autoescape None %}`` directive, or for a single expression by
-replacing ``{{ ... }}`` with ``{% raw ...%}``. Additionally, in each of
-these places the name of an alternative escaping function may be used
-instead of ``None``.
+全テンプレートの出力はデフォルトでエスケープされます、それには 
+``tornado.escape.xhtml_escape`` ファンクションを使います。
+この振る舞いは、``Application`` や ``TemplateLoader`` コンストラクタに
+``autoescape=None`` を渡すことで全体的に変更されます、また、 
+``{% autoescape None %}`` ディレクティブを使ったテンプレートファイルや、
+``{{ ... }}`` を ``{% raw ...%}`` で置き換える単式もあります。
+加えて、それぞれで、 ``None`` の代わりに、
+他のエスケープファンクションの名前を置き換えて使うこともできます。
 
 Cookies and secure cookies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
