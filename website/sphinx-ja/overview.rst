@@ -18,8 +18,6 @@ Pythonで書かれたノンブロッキングウェブサーバです。 FriendF
 <http://www.kernel.org/doc/man-pages/online/pages/man4/epoll.4.html>`_
 や kqueue を使用して数千の接続を同時に扱うことができるからです、
 これはリアルタイムウェブサービスに理想的なフレームワークであるということを意味します。
-私たちは、FriendFeedのリアルタイムの特徴を特に扱うための
-ウェブサーバを開発しました ー FriendFeedの全てのアクティブユーザーは、
 FrinedFeedのサーバへ接続を張り続けます。(数千のクライアントをサポートするための
 サーバーのスケーリングに関するより多くの情報は、 `The C10K problem
 <http://www.kegel.com/c10k.html>`_ を参照してください。)
@@ -170,30 +168,31 @@ Other methods designed for overriding include:
 -  ``set_default_headers(self)`` - may be used to set additional headers
    on the response (such as a custom ``Server`` header)
 
-Error Handling
-~~~~~~~~~~~~~~
+エラーハンドリング
+~~~~~~~~~~~~~~~~~~
 
-There are three ways to return an error from a `RequestHandler`:
+`RequestHandler` からエラーを返却する方法は３通りあります:
 
-1. Manually call `~tornado.web.RequestHandler.set_status` and output the
-   response body normally.
-2. Call `~RequestHandler.send_error`.  This discards
-   any pending unflushed output and calls `~RequestHandler.write_error` to
-   generate an error page.
-3. Raise an exception.  `tornado.web.HTTPError` can be used to generate
-   a specified status code; all other exceptions return a 500 status.
-   The exception handler uses `~RequestHandler.send_error` and
-   `~RequestHandler.write_error` to generate the error page.
+1. `~tornado.web.RequestHandler.set_status` を手動で呼び出し、
+   普通にレスポンスボディーを出力します。
+2. `~RequestHandler.send_error` を呼び出す。この放棄(discards)は、
+   出力をフラッシュせずに保留して、エラーページを生成するために
+   `~RequestHandler.write_error` を呼びます。
+3. 例外を発生する。 `tornado.web.HTTPError` は特定のステータスコードを
+   生成するのに利用できます; 他の例外の全ては、500ステータスを返却します。
+   例外ハンドラは、エラーページを生成するために `~RequestHandler.send_error` 
+   と `~RequestHandler.write_error` を使用します。
 
-The default error page includes a stack trace in debug mode and a one-line
-description of the error (e.g. "500: Internal Server Error") otherwise.
-To produce a custom error page, override `RequestHandler.write_error`.
-This method may produce output normally via methods such as 
-`~RequestHandler.write` and `~RequestHandler.render`.  If the error was
-caused by an exception, an ``exc_info`` triple will be passed as a keyword
-argument (note that this exception is not guaranteed to be the current
-exception in ``sys.exc_info``, so ``write_error`` must use e.g.
-`traceback.format_exception` instead of `traceback.format_exc`).
+デフォルトのエラーページは、デバッグモードとスタックトレースを、
+そうでなければ、 一行のエラーの概要(例えば、"500: Internal Server Error")
+を含みます。カスタムエラーページを生成するためには、
+`RequestHandler.write_error` をオーバーライドします。 このメソッドは、
+例えば、 `~RequestHandler.write` と `~RequestHandler.render` を通して、
+標準出力を生成することができます。例外で引き起こされてエラーになった場合は、 
+3種類の ``exec_info`` が、キーワード引数(この例外は、 ``sys.exc_info`` では
+最新の例外なることが保証されないため、 `write_error`` は、例えば、
+`traceback.format_exc` の代わりに `traceback.format_exception` を
+利用すべきことに注意)として渡されます。
 
 In Tornado 2.0 and earlier, custom error pages were implemented by overriding
 ``RequestHandler.get_error_html``, which returned the error page as a string
@@ -201,6 +200,14 @@ instead of calling the normal output methods (and had slightly different
 semantics for exceptions).  This method is still supported, but it is
 deprecated and applications are encouraged to switch to 
 `RequestHandler.write_error`.
+
+Tornado 2.0 より前では、カスタムエラーページは 
+``RequestHandler.get_error_html`` をオーバーライドすることによって
+実装され、標準出力メソッド呼ぶ代わりに文字列としてエラーページを
+返却していました(そして、ちょっと変わった例外用の動作もありました)。
+このメソッドは、まだサポートされていますが廃止予定で、
+アプリケーションは、 `RequestHandler.write_error` に変更することが
+推奨されています。
 
 Redirection
 ~~~~~~~~~~~
