@@ -194,13 +194,6 @@ Other methods designed for overriding include:
 `traceback.format_exc` の代わりに `traceback.format_exception` を
 利用すべきことに注意)として渡されます。
 
-In Tornado 2.0 and earlier, custom error pages were implemented by overriding
-``RequestHandler.get_error_html``, which returned the error page as a string
-instead of calling the normal output methods (and had slightly different
-semantics for exceptions).  This method is still supported, but it is
-deprecated and applications are encouraged to switch to 
-`RequestHandler.write_error`.
-
 Tornado 2.0 より前では、カスタムエラーページは 
 ``RequestHandler.get_error_html`` をオーバーライドすることによって
 実装され、標準出力メソッド呼ぶ代わりに文字列としてエラーページを
